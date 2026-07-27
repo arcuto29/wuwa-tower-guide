@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WuWa Tower of Adversity Guide</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Tower of Adversity Guide</h1>
+            <p class="subtitle">Wuthering Waves Endgame Companion</p>
+            <a href="pull-calculator.html" style="display:inline-block;margin-top:1rem;padding:0.5rem 1.5rem;background:linear-gradient(135deg,#f0a030,#ff8a30);color:#000;border-radius:8px;text-decoration:none;font-weight:bold;font-size:0.9rem;">Pull Calculator &rarr;</a>
+        </div>
+    </header>
+
+    <nav class="tab-nav">
+        <button class="tab-btn active" data-tab="overview">Overview</button>
+        <button class="tab-btn" data-tab="vigor">Vigor Planner</button>
+        <button class="tab-btn" data-tab="teams">Team Builder</button>
+        <button class="tab-btn" data-tab="floors">Floor Strategies</button>
+        <button class="tab-btn" data-tab="astrite">Astrite Guide</button>
+        <button class="tab-btn" data-tab="checklist">Pre-Clear Checklist</button>
+    </nav>
+
+    <main>
+        <!-- OVERVIEW TAB -->
+        <section id="overview" class="tab-content active">
+            <div class="card">
+                <h2>What is Tower of Adversity?</h2>
+                <p>Tower of Adversity (ToA) is Wuthering Waves' premier endgame combat challenge. It consists of timed stages split across three towers, requiring you to build and manage multiple teams.</p>
+                <div class="unlock-info">
+                    <h3>How to Unlock</h3>
+                    <ul>
+                        <li>Reach <strong>Union Level 15</strong></li>
+                        <li>Complete the <strong>"Alone in the Abyss"</strong> tutorial quest</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Tower Structure</h2>
+                <div class="tower-grid">
+                    <div class="tower-card resonant">
+                        <h3>Resonant Tower</h3>
+                        <p class="tower-position">Left</p>
+                        <p>4 Stages with increasing difficulty. Variable Vigor costs (1-4 per stage).</p>
+                        <div class="vigor-cost-list">
+                            <span>Stage 1: 1 Vigor</span>
+                            <span>Stage 2: 2 Vigor</span>
+                            <span>Stage 3: 3 Vigor</span>
+                            <span>Stage 4: 4 Vigor</span>
+                        </div>
+                    </div>
+                    <div class="tower-card hazard">
+                        <h3>Hazard Tower</h3>
+                        <p class="tower-position">Center</p>
+                        <p>The hardest tower. Each stage costs <strong>5 Vigor</strong>. Features unique interference effects.</p>
+                        <div class="vigor-cost-list">
+                            <span>Every Stage: 5 Vigor</span>
+                        </div>
+                    </div>
+                    <div class="tower-card echoing">
+                        <h3>Echoing Tower</h3>
+                        <p class="tower-position">Right</p>
+                        <p>4 Stages with increasing difficulty. Variable Vigor costs (1-4 per stage).</p>
+                        <div class="vigor-cost-list">
+                            <span>Stage 1: 1 Vigor</span>
+                            <span>Stage 2: 2 Vigor</span>
+                            <span>Stage 3: 3 Vigor</span>
+                            <span>Stage 4: 4 Vigor</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Key Tips for Success</h2>
+                <div class="tips-grid">
+                    <div class="tip">
+                        <div class="tip-icon">1</div>
+                        <h4>Build 2+ Strong DPS</h4>
+                        <p>Aim for level 90 main DPS with 2000+ ATK, 50% Crit Rate, 250% Crit DMG.</p>
+                    </div>
+                    <div class="tip">
+                        <div class="tip-icon">2</div>
+                        <h4>Manage Vigor Wisely</h4>
+                        <p>Use weaker teams on stages 1-3, save your best for Stage 4 and Hazard.</p>
+                    </div>
+                    <div class="tip">
+                        <div class="tip-icon">3</div>
+                        <h4>Match Elements to Buffs</h4>
+                        <p>Each rotation has interference effects. Pick teams that benefit from current buffs.</p>
+                    </div>
+                    <div class="tip">
+                        <div class="tip-icon">4</div>
+                        <h4>Learn Enemy Patterns</h4>
+                        <p>Dodge and parry timing is crucial. Use Swap Cancel for DPS optimization.</p>
+                    </div>
+                    <div class="tip">
+                        <div class="tip-icon">5</div>
+                        <h4>Use Echo Skills Often</h4>
+                        <p>Echo Skill buffs stack and strip enemy RES. Fire them frequently in rotation.</p>
+                    </div>
+                    <div class="tip">
+                        <div class="tip-icon">6</div>
+                        <h4>Keep HP Above 75%</h4>
+                        <p>Some buffs grant +20% Crit Rate and +65% Crit DMG when HP stays above 75%.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIGOR PLANNER TAB -->
+        <section id="vigor" class="tab-content">
+            <div class="card">
+                <h2>Vigor Calculator</h2>
+                <p class="card-desc">Each Resonator has <strong>10 Vigor</strong> total. Plan which characters go where to avoid running out.</p>
+                
+                <div class="vigor-planner">
+                    <div class="roster-input">
+                        <h3>Your Roster</h3>
+                        <p class="help-text">Add your characters to plan Vigor allocation across towers.</p>
+                        <div class="add-char-row">
+                            <input type="text" id="char-name-input" placeholder="Character name..." list="character-suggestions">
+                            <datalist id="character-suggestions"></datalist>
+                            <select id="char-role-input">
+                                <option value="Main DPS">Main DPS</option>
+                                <option value="Sub DPS">Sub DPS</option>
+                                <option value="Support">Support</option>
+                                <option value="Healer">Healer</option>
+                            </select>
+                            <select id="char-element-input">
+                                <option value="Glacio">Glacio</option>
+                                <option value="Fusion">Fusion</option>
+                                <option value="Electro">Electro</option>
+                                <option value="Aero">Aero</option>
+                                <option value="Spectro">Spectro</option>
+                                <option value="Havoc">Havoc</option>
+                            </select>
+                            <button id="add-char-btn" class="btn-primary">Add</button>
+                        </div>
+                        <div id="roster-list" class="roster-list"></div>
+                    </div>
+
+                    <div class="vigor-allocation">
+                        <h3>Vigor Allocation</h3>
+                        <div class="allocation-towers">
+                            <div class="alloc-tower">
+                                <h4>Resonant Tower</h4>
+                                <div class="alloc-stages" id="resonant-stages">
+                                    <div class="alloc-stage" data-tower="resonant" data-stage="1" data-cost="1">
+                                        <span class="stage-label">Stage 1 <em>(1 Vigor)</em></span>
+                                        <div class="stage-slots" data-tower="resonant" data-stage="1"></div>
+                                    </div>
+                                    <div class="alloc-stage" data-tower="resonant" data-stage="2" data-cost="2">
+                                        <span class="stage-label">Stage 2 <em>(2 Vigor)</em></span>
+                                        <div class="stage-slots" data-tower="resonant" data-stage="2"></div>
+                                    </div>
+                                    <div class="alloc-stage" data-tower="resonant" data-stage="3" data-cost="3">
+                                        <span class="stage-label">Stage 3 <em>(3 Vigor)</em></span>
+                                        <div class="stage-slots" data-tower="resonant" data-stage="3"></div>
+                                    </div>
+                                    <div class="alloc-stage" data-tower="resonant" data-stage="4" data-cost="4">
+                                        <span class="stage-label">Stage 4 <em>(4 Vigor)</em></span>
+                                        <div class="stage-slots" data-tower="resonant" data-stage="4"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="alloc-tower">
+                                <h4>Hazard Tower</h4>
+                                <div class="alloc-stages" id="hazard-stages">
+                                    <div class="alloc-stage" data-tower="hazard" data-stage="1" data-cost="5">
+                                        <span class="stage-label">Floor 1 <em>(5 Vigor)</em></span>
+                                        <div class="stage-slots" data-tower="hazard" data-stage="1"></div>
+                                    </div>
+                                    <div class="alloc-stage" data-tower="hazard" data-stage="2" data-cost="5">
+                                        <span class="stage-label">Floor 2 <em>(5 Vigor)</em></span>
+                                        <div class="stage-slots" data-tower="hazard" data-stage="2"></div>
+                                    </div>
+                                    <div class="alloc-stage" data-tower="hazard" data-stage="3" data-cost="5">
+                                        <span class="stage-label">Floor 3 <em>(5 Vigor)</em></span>
+                                        <div class="stage-slots" data-tower="hazard" data-stage="3"></div>
+                                    </div>
+                                    <div class="alloc-stage" data-tower="hazard" data-stage="4" data-cost="5">
+                                        <span class="stage-label">Floor 4 <em>(5 Vigor)</em></span>
+                                        <div class="stage-slots" data-tower="hazard" data-stage="4"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="alloc-tower">
+                                <h4>Echoing Tower</h4>
+                                <div class="alloc-stages" id="echoing-stages">
+                                    <div class="alloc-stage" data-tower="echoing" data-stage="1" data-cost="1">
+                                        <span class="stage-label">Stage 1 <em>(1 Vigor)</em></span>
+                                        <div class="stage-slots" data-tower="echoing" data-stage="1"></div>
+                                    </div>
+                                    <div class="alloc-stage" data-tower="echoing" data-stage="2" data-cost="2">
+                                        <span class="stage-label">Stage 2 <em>(2 Vigor)</em></span>
+                                        <div class="stage-slots" data-tower="echoing" data-stage="2"></div>
+                                    </div>
+                                    <div class="alloc-stage" data-tower="echoing" data-stage="3" data-cost="3">
+                                        <span class="stage-label">Stage 3 <em>(3 Vigor)</em></span>
+                                        <div class="stage-slots" data-tower="echoing" data-stage="3"></div>
+                                    </div>
+                                    <div class="alloc-stage" data-tower="echoing" data-stage="4" data-cost="4">
+                                        <span class="stage-label">Stage 4 <em>(4 Vigor)</em></span>
+                                        <div class="stage-slots" data-tower="echoing" data-stage="4"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="vigor-summary" id="vigor-summary">
+                        <h3>Vigor Summary</h3>
+                        <div id="vigor-summary-content">
+                            <p class="empty-state">Add characters and assign them to stages to see Vigor usage.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Vigor Strategy Tips</h2>
+                <div class="strategy-box">
+                    <h4>Optimal Vigor Distribution</h4>
+                    <ul>
+                        <li><strong>Pair Stages 1+4</strong> and <strong>Stages 2+3</strong> with the same team (costs 5 Vigor each pair in Resonant/Echoing).</li>
+                        <li>This lets you clear both side towers with just 2 teams using 5 Vigor each.</li>
+                        <li>Save your <strong>strongest team</strong> for Hazard Tower floors (5 Vigor each).</li>
+                        <li>You need at minimum <strong>4 well-built teams</strong> to full-clear every rotation.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- TEAM BUILDER TAB -->
+        <section id="teams" class="tab-content">
+            <div class="card">
+                <h2>Recommended Team Archetypes</h2>
+                <p class="card-desc">Build teams around these proven archetypes for Tower success.</p>
+
+                <div class="team-templates">
+                    <div class="team-template">
+                        <div class="team-header ss-tier">
+                            <span class="tier-badge">SS</span>
+                            <h3>Hypercarry (Single-Target)</h3>
+                        </div>
+                        <p>One powerful DPS + buffers. Best for Hazard Tower boss floors.</p>
+                        <div class="team-comp">
+                            <div class="slot dps">Main DPS</div>
+                            <div class="slot support">Buffer/Sub DPS</div>
+                            <div class="slot healer">Healer/Shielder</div>
+                        </div>
+                        <div class="team-examples">
+                            <p><strong>Examples:</strong></p>
+                            <ul>
+                                <li>Sigrika + Qiuyuan + Shorekeeper</li>
+                                <li>Aemeath + Lynae + Mornye</li>
+                                <li>Augusta + Yinlin + Verina</li>
+                                <li>Phrolova + Cantarella + Shorekeeper</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="team-template">
+                        <div class="team-header s-tier">
+                            <span class="tier-badge">S</span>
+                            <h3>Quickswap / Burst Rotation</h3>
+                        </div>
+                        <p>Rotate characters for burst combos. Great for multi-wave floors.</p>
+                        <div class="team-comp">
+                            <div class="slot dps">Burst DPS</div>
+                            <div class="slot sub-dps">Off-field DPS</div>
+                            <div class="slot support">Support</div>
+                        </div>
+                        <div class="team-examples">
+                            <p><strong>Examples:</strong></p>
+                            <ul>
+                                <li>Cartethyia + Ciaccona + Healer</li>
+                                <li>Jinhsi + Zhezhi + Verina</li>
+                                <li>Camellya + Danjin + Shorekeeper</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="team-template">
+                        <div class="team-header a-tier">
+                            <span class="tier-badge">A</span>
+                            <h3>AoE / Cleave Team</h3>
+                        </div>
+                        <p>Wide damage for multi-enemy stages. Useful for earlier tower stages.</p>
+                        <div class="team-comp">
+                            <div class="slot dps">AoE DPS</div>
+                            <div class="slot sub-dps">Grouper/Sub DPS</div>
+                            <div class="slot healer">Sustain</div>
+                        </div>
+                        <div class="team-examples">
+                            <p><strong>Examples:</strong></p>
+                            <ul>
+                                <li>Changli + Yinlin + Verina</li>
+                                <li>Calcharo + Yinlin + Shorekeeper</li>
+                                <li>Jiyan + Mortefi + Verina</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="team-template">
+                        <div class="team-header f2p-tier">
+                            <span class="tier-badge">F2P</span>
+                            <h3>Free-to-Play Friendly</h3>
+                        </div>
+                        <p>Strong teams using accessible characters for newer/F2P players.</p>
+                        <div class="team-comp">
+                            <div class="slot dps">DPS</div>
+                            <div class="slot sub-dps">Sub DPS</div>
+                            <div class="slot healer">Healer</div>
+                        </div>
+                        <div class="team-examples">
+                            <p><strong>Examples:</strong></p>
+                            <ul>
+                                <li>Rover (Havoc) + Danjin + Verina</li>
+                                <li>Encore + Sanhua + Verina</li>
+                                <li>Xiangli Yao + Yinlin + Baizhi</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Character Build Targets</h2>
+                <p class="card-desc">Minimum investment to clear comfortably:</p>
+                <div class="build-targets">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Stat</th>
+                                <th>Minimum</th>
+                                <th>Comfortable</th>
+                                <th>Optimal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Character Level</td>
+                                <td>80</td>
+                                <td>90</td>
+                                <td>90</td>
+                            </tr>
+                            <tr>
+                                <td>Weapon Level</td>
+                                <td>80</td>
+                                <td>90</td>
+                                <td>90</td>
+                            </tr>
+                            <tr>
+                                <td>ATK</td>
+                                <td>1600+</td>
+                                <td>2000+</td>
+                                <td>2500+</td>
+                            </tr>
+                            <tr>
+                                <td>Crit Rate</td>
+                                <td>40%</td>
+                                <td>50%</td>
+                                <td>60%+</td>
+                            </tr>
+                            <tr>
+                                <td>Crit DMG</td>
+                                <td>180%</td>
+                                <td>250%</td>
+                                <td>300%+</td>
+                            </tr>
+                            <tr>
+                                <td>Skill Levels</td>
+                                <td>6-6-6-6-6</td>
+                                <td>6-8-8-8-6</td>
+                                <td>8-10-10-10-8</td>
+                            </tr>
+                            <tr>
+                                <td>Echoes</td>
+                                <td>+20 Main Stats</td>
+                                <td>All +25</td>
+                                <td>All +25, good subs</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- FLOOR STRATEGIES TAB -->
+        <section id="floors" class="tab-content">
+            <div class="card">
+                <h2>Floor-by-Floor Strategy Guide</h2>
+                <p class="card-desc">Select a tower and floor to see tailored strategies.</p>
+
+                <div class="floor-selector">
+                    <div class="selector-group">
+                        <label>Tower:</label>
+                        <select id="tower-select">
+                            <option value="resonant">Resonant Tower</option>
+                            <option value="hazard">Hazard Tower</option>
+                            <option value="echoing">Echoing Tower</option>
+                        </select>
+                    </div>
+                    <div class="selector-group">
+                        <label>Floor:</label>
+                        <select id="floor-select">
+                            <option value="1">Floor 1</option>
+                            <option value="2">Floor 2</option>
+                            <option value="3">Floor 3</option>
+                            <option value="4">Floor 4</option>
+                        </select>
+                    </div>
+                    <button id="show-strategy-btn" class="btn-primary">Show Strategy</button>
+                </div>
+
+                <div id="strategy-display" class="strategy-display">
+                    <div class="strategy-placeholder">
+                        <p>Select a tower and floor, then click "Show Strategy" to see detailed tips.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Universal Combat Tips</h2>
+                <div class="combat-tips">
+                    <div class="combat-tip">
+                        <h4>Swap Cancel</h4>
+                        <p>After using a skill, immediately swap to cancel the animation end-lag. This dramatically increases DPS uptime. Chain: Skill > Swap > Skill > Swap.</p>
+                    </div>
+                    <div class="combat-tip">
+                        <h4>Intro/Outro Chaining</h4>
+                        <p>Swapping characters triggers Outro skills which chain into Intro skills. Build teams where Outro > Intro creates synergy (e.g., ATK buff Outro into DPS Intro).</p>
+                    </div>
+                    <div class="combat-tip">
+                        <h4>Echo Skill Stacking</h4>
+                        <p>Many rotation buffs trigger on Echo Skill use. Fire Echo Skills frequently to maintain buff stacks and strip enemy RES.</p>
+                    </div>
+                    <div class="combat-tip">
+                        <h4>Parry Timing</h4>
+                        <p>Perfect dodges grant i-frames and often trigger counter-attacks. Against bosses, learning parry windows is more valuable than raw DPS.</p>
+                    </div>
+                    <div class="combat-tip">
+                        <h4>Liberation Timing</h4>
+                        <p>Save Liberation (Ultimate) for damage windows after boss staggers or during team buff windows. Don't waste it during invulnerability phases.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ASTRITE GUIDE TAB -->
+        <section id="astrite" class="tab-content">
+            <div class="card rotation-highlight">
+                <h2>Astrite from Tower of Adversity</h2>
+                <p class="card-desc">Tower of Adversity is one of your <strong>best recurring Astrite sources</strong>. Here's what you earn:</p>
+
+                <div class="astrite-tower-rewards">
+                    <div class="reward-block">
+                        <h4>One-Time Rewards (First Clear)</h4>
+                        <table class="astrite-table">
+                            <thead><tr><th>Zone</th><th>Astrite</th><th>Notes</th></tr></thead>
+                            <tbody>
+                                <tr><td>Stable Zone</td><td class="astrite-amount">600</td><td>Easy, permanent</td></tr>
+                                <tr><td>Experiment Zone</td><td class="astrite-amount">600</td><td>Moderate difficulty</td></tr>
+                                <tr><td>Overdrive Zone</td><td class="astrite-amount">600</td><td>Harder, but one-time</td></tr>
+                                <tr class="total-row"><td><strong>Total One-Time</strong></td><td class="astrite-amount"><strong>1,800</strong></td><td>Clear once, keep forever</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="reward-block">
+                        <h4>Recurring Rewards (Every Reset ~28 days)</h4>
+                        <table class="astrite-table">
+                            <thead><tr><th>Source</th><th>Astrite</th><th>Notes</th></tr></thead>
+                            <tbody>
+                                <tr><td>Resonant Tower (all floors)</td><td class="astrite-amount">200</td><td>Side tower, easier</td></tr>
+                                <tr><td>Echoing Tower (all floors)</td><td class="astrite-amount">200</td><td>Side tower, easier</td></tr>
+                                <tr><td>Hazard Zone (all floors)</td><td class="astrite-amount">300</td><td>Hardest but most rewarding</td></tr>
+                                <tr class="total-row"><td><strong>Total Per Reset</strong></td><td class="astrite-amount"><strong>700</strong></td><td>~4.4 pulls every 28 days</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="astrite-callout">
+                    <p><strong>Why this matters:</strong> 700 Astrite every 28 days = ~4.4 pulls per rotation. Over a full patch cycle (42 days), that's roughly <strong>6-7 free pulls</strong> just from Tower alone. Never skip a reset!</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>All Astrite Sources (Efficiency Ranked)</h2>
+                <p class="card-desc">Maximize your Astrite income by hitting every source. Sorted by effort-to-reward ratio.</p>
+
+                <div class="astrite-sources">
+                    <div class="source-tier" id="tier-daily">
+                        <h3 class="source-tier-header">Daily (Do Every Day)</h3>
+                        <div class="source-items">
+                            <div class="source-item priority-high">
+                                <div class="source-info">
+                                    <span class="source-name">Daily Quests (Guidebook)</span>
+                                    <span class="source-detail">Complete 4 daily activities</span>
+                                </div>
+                                <div class="source-reward">
+                                    <span class="astrite-val">60</span>
+                                    <span class="astrite-period">/day</span>
+                                </div>
+                            </div>
+                            <div class="source-item priority-high">
+                                <div class="source-info">
+                                    <span class="source-name">Monthly Total from Dailies</span>
+                                    <span class="source-detail">60 x 30 days</span>
+                                </div>
+                                <div class="source-reward">
+                                    <span class="astrite-val">1,800</span>
+                                    <span class="astrite-period">/month</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="source-tier" id="tier-recurring">
+                        <h3 class="source-tier-header">Recurring (Every Reset/Patch)</h3>
+                        <div class="source-items">
+                            <div class="source-item priority-high">
+                                <div class="source-info">
+                                    <span class="source-name">Tower of Adversity</span>
+                                    <span class="source-detail">Full clear all 3 towers</span>
+                                </div>
+                                <div class="source-reward">
+                                    <span class="astrite-val">700</span>
+                                    <span class="astrite-period">/28 days</span>
+                                </div>
+                            </div>
+                            <div class="source-item priority-high">
+                                <div class="source-info">
+                                    <span class="source-name">Patch Events</span>
+                                    <span class="source-detail">Limited-time events each patch</span>
+                                </div>
+                                <div class="source-reward">
+                                    <span class="astrite-val">~2,000-4,000</span>
+                                    <span class="astrite-period">/patch</span>
+                                </div>
+                            </div>
+                            <div class="source-item priority-medium">
+                                <div class="source-info">
+                                    <span class="source-name">Battle Pass (Free Track)</span>
+                                    <span class="source-detail">Level up through gameplay</span>
+                                </div>
+                                <div class="source-reward">
+                                    <span class="astrite-val">~500-800</span>
+                                    <span class="astrite-period">/patch</span>
+                                </div>
+                            </div>
+                            <div class="source-item priority-medium">
+                                <div class="source-info">
+                                    <span class="source-name">Abyss/Whimpering Wastes</span>
+                                    <span class="source-detail">Other endgame modes</span>
+                                </div>
+                                <div class="source-reward">
+                                    <span class="astrite-val">~300-500</span>
+                                    <span class="astrite-period">/reset</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="source-tier" id="tier-onetime">
+                        <h3 class="source-tier-header">One-Time (Clear Once)</h3>
+                        <div class="source-items">
+                            <div class="source-item priority-high">
+                                <div class="source-info">
+                                    <span class="source-name">Main Story Quests</span>
+                                    <span class="source-detail">Follow the main storyline</span>
+                                </div>
+                                <div class="source-reward">
+                                    <span class="astrite-val">Large</span>
+                                    <span class="astrite-period">one-time</span>
+                                </div>
+                            </div>
+                            <div class="source-item priority-high">
+                                <div class="source-info">
+                                    <span class="source-name">Exploration (Chests & Puzzles)</span>
+                                    <span class="source-detail">World chests, Sonance Caskets, puzzles</span>
+                                </div>
+                                <div class="source-reward">
+                                    <span class="astrite-val">5,000+</span>
+                                    <span class="astrite-period">per region</span>
+                                </div>
+                            </div>
+                            <div class="source-item priority-high">
+                                <div class="source-info">
+                                    <span class="source-name">ToA One-Time Zones</span>
+                                    <span class="source-detail">Stable + Experiment + Overdrive</span>
+                                </div>
+                                <div class="source-reward">
+                                    <span class="astrite-val">1,800</span>
+                                    <span class="astrite-period">one-time</span>
+                                </div>
+                            </div>
+                            <div class="source-item priority-medium">
+                                <div class="source-info">
+                                    <span class="source-name">Resonance Nexuses</span>
+                                    <span class="source-detail">Activate all across the map</span>
+                                </div>
+                                <div class="source-reward">
+                                    <span class="astrite-val">30</span>
+                                    <span class="astrite-period">each</span>
+                                </div>
+                            </div>
+                            <div class="source-item priority-low">
+                                <div class="source-info">
+                                    <span class="source-name">Beacons</span>
+                                    <span class="source-detail">Discover and activate</span>
+                                </div>
+                                <div class="source-reward">
+                                    <span class="astrite-val">5</span>
+                                    <span class="astrite-period">each</span>
+                                </div>
+                            </div>
+                            <div class="source-item priority-medium">
+                                <div class="source-info">
+                                    <span class="source-name">Pioneer Association Levels</span>
+                                    <span class="source-detail">Exploration milestones</span>
+                                </div>
+                                <div class="source-reward">
+                                    <span class="astrite-val">Varies</span>
+                                    <span class="astrite-period">per level</span>
+                                </div>
+                            </div>
+                            <div class="source-item priority-medium">
+                                <div class="source-info">
+                                    <span class="source-name">Character/Side Quests</span>
+                                    <span class="source-detail">Companion stories & world quests</span>
+                                </div>
+                                <div class="source-reward">
+                                    <span class="astrite-val">20-80</span>
+                                    <span class="astrite-period">per quest</span>
+                                </div>
+                            </div>
+                            <div class="source-item priority-medium">
+                                <div class="source-info">
+                                    <span class="source-name">Achievements</span>
+                                    <span class="source-detail">Complete various milestones</span>
+                                </div>
+                                <div class="source-reward">
+                                    <span class="astrite-val">5-20</span>
+                                    <span class="astrite-period">each</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Monthly Astrite Calculator</h2>
+                <p class="card-desc">Estimate how many pulls you can save based on your play habits.</p>
+
+                <div class="astrite-calc">
+                    <div class="calc-inputs">
+                        <div class="calc-row">
+                            <label><input type="checkbox" id="calc-dailies" checked> Daily Quests (every day)</label>
+                            <span class="calc-value">+1,800/month</span>
+                        </div>
+                        <div class="calc-row">
+                            <label><input type="checkbox" id="calc-toa" checked> Tower of Adversity (full clear)</label>
+                            <span class="calc-value">+700/28 days</span>
+                        </div>
+                        <div class="calc-row">
+                            <label><input type="checkbox" id="calc-events" checked> Patch Events</label>
+                            <span class="calc-value">+3,000/patch</span>
+                        </div>
+                        <div class="calc-row">
+                            <label><input type="checkbox" id="calc-bp"> Battle Pass (Free)</label>
+                            <span class="calc-value">+650/patch</span>
+                        </div>
+                        <div class="calc-row">
+                            <label><input type="checkbox" id="calc-codes"> Redemption Codes</label>
+                            <span class="calc-value">+200/month</span>
+                        </div>
+                        <div class="calc-row">
+                            <label><input type="checkbox" id="calc-maintenance"> Maintenance Compensation</label>
+                            <span class="calc-value">+300/patch</span>
+                        </div>
+                        <div class="calc-row">
+                            <label><input type="checkbox" id="calc-lunite"> Lunite Subscription (paid)</label>
+                            <span class="calc-value">+2,520/month</span>
+                        </div>
+                    </div>
+                    <div class="calc-result">
+                        <div class="calc-total">
+                            <h3>Estimated Monthly Astrite</h3>
+                            <div class="total-number" id="calc-total-astrite">0</div>
+                        </div>
+                        <div class="calc-pulls">
+                            <h3>Estimated Pulls</h3>
+                            <div class="total-number" id="calc-total-pulls">0</div>
+                            <p class="calc-note">160 Astrite = 1 Pull</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Astrite Spending Tips</h2>
+                <div class="tips-grid">
+                    <div class="tip">
+                        <div class="tip-icon" style="background:var(--warning)">!</div>
+                        <h4>Never Pull Standard Banner</h4>
+                        <p>Only use Astrite on featured character/weapon banners. Standard comes naturally from free tides.</p>
+                    </div>
+                    <div class="tip">
+                        <div class="tip-icon" style="background:var(--success)">$</div>
+                        <h4>Save for Pity</h4>
+                        <p>Guaranteed 5-star at 80 pulls. Save 12,800 Astrite before pulling to guarantee your target.</p>
+                    </div>
+                    <div class="tip">
+                        <div class="tip-icon" style="background:var(--electro)">P</div>
+                        <h4>Plan Ahead</h4>
+                        <p>Check upcoming banners. Skip characters you don't need for Tower teams to save for meta picks.</p>
+                    </div>
+                    <div class="tip">
+                        <div class="tip-icon" style="background:var(--glacio)">T</div>
+                        <h4>Tower = Priority Pulls</h4>
+                        <p>Characters that improve your Tower clears pay for themselves in recurring Astrite rewards.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CHECKLIST TAB -->
+        <section id="checklist" class="tab-content">
+            <div class="card">
+                <h2>Pre-Clear Preparation Checklist</h2>
+                <p class="card-desc">Make sure you're ready before entering the tower. Check off items as you complete them.</p>
+
+                <div class="checklist-container">
+                    <div class="checklist-section">
+                        <h3>Character Investment</h3>
+                        <div class="checklist-items">
+                            <label class="check-item"><input type="checkbox" data-save="check-1"> 2+ Main DPS at Level 90</label>
+                            <label class="check-item"><input type="checkbox" data-save="check-2"> Weapons leveled to 90</label>
+                            <label class="check-item"><input type="checkbox" data-save="check-3"> Skills at 6-8-8-8-6 or higher</label>
+                            <label class="check-item"><input type="checkbox" data-save="check-4"> Echoes leveled to +25</label>
+                            <label class="check-item"><input type="checkbox" data-save="check-5"> 2000+ ATK on Main DPS</label>
+                            <label class="check-item"><input type="checkbox" data-save="check-6"> 50%+ Crit Rate on DPS</label>
+                            <label class="check-item"><input type="checkbox" data-save="check-7"> 250%+ Crit DMG on DPS</label>
+                        </div>
+                    </div>
+
+                    <div class="checklist-section">
+                        <h3>Team Planning</h3>
+                        <div class="checklist-items">
+                            <label class="check-item"><input type="checkbox" data-save="check-8"> At least 4 viable teams built</label>
+                            <label class="check-item"><input type="checkbox" data-save="check-9"> Teams cover different elements</label>
+                            <label class="check-item"><input type="checkbox" data-save="check-10"> Each team has a healer/sustain</label>
+                            <label class="check-item"><input type="checkbox" data-save="check-11"> Vigor allocation planned</label>
+                            <label class="check-item"><input type="checkbox" data-save="check-12"> Teams match current rotation buffs</label>
+                        </div>
+                    </div>
+
+                    <div class="checklist-section">
+                        <h3>Before Each Attempt</h3>
+                        <div class="checklist-items">
+                            <label class="check-item"><input type="checkbox" data-save="check-13"> Checked enemy weaknesses for this rotation</label>
+                            <label class="check-item"><input type="checkbox" data-save="check-14"> Read Interference effects for Hazard Zone</label>
+                            <label class="check-item"><input type="checkbox" data-save="check-15"> Practiced rotations in overworld</label>
+                            <label class="check-item"><input type="checkbox" data-save="check-16"> Echo sets match team archetype</label>
+                            <label class="check-item"><input type="checkbox" data-save="check-17"> Equipped best Echoes (not exploration sets)</label>
+                        </div>
+                    </div>
+
+                    <div class="checklist-section">
+                        <h3>Rotation Day Strategy</h3>
+                        <div class="checklist-items">
+                            <label class="check-item"><input type="checkbox" data-save="check-18"> Clear easiest floors first for morale</label>
+                            <label class="check-item"><input type="checkbox" data-save="check-19"> Retry hard floors after break (avoid tilt)</label>
+                            <label class="check-item"><input type="checkbox" data-save="check-20"> Record failed attempts to analyze</label>
+                            <label class="check-item"><input type="checkbox" data-save="check-21"> Claim all rewards after clearing</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="checklist-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="checklist-progress-fill"></div>
+                    </div>
+                    <span id="checklist-progress-text">0 / 21 completed</span>
+                </div>
+
+                <button id="reset-checklist" class="btn-secondary">Reset Checklist</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>WuWa Tower of Adversity Guide | Not affiliated with Kuro Games</p>
+        <p class="sources">Data compiled from community resources including <a href="https://game8.co/games/Wuthering-Waves" target="_blank">Game8</a>, <a href="https://wutheringwaves.fandom.com/wiki/Tower_of_Adversity" target="_blank">WuWa Wiki</a>, and community guides.</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

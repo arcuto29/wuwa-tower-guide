@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WuWa Pull Calculator - Can I Get That 5-Star?</title>
+    <link rel="stylesheet" href="pull-calc.css">
+</head>
+<body>
+    <header>
+        <h1>Can I Get That 5-Star?</h1>
+        <p class="subtitle">Wuthering Waves Pull & Savings Calculator</p>
+        <a href="index.html" style="display:inline-block;margin-top:1rem;padding:0.5rem 1.5rem;background:rgba(255,255,255,0.1);color:#eaeaea;border:1px solid #2a2a50;border-radius:8px;text-decoration:none;font-size:0.85rem;">&larr; Tower Guide</a>
+    </header>
+
+    <main>
+        <!-- SECTION 1: YOUR CURRENT STATUS -->
+        <section class="card" id="status-section">
+            <h2>Your Current Status</h2>
+            <p class="section-desc">Tell me what you have right now.</p>
+
+            <div class="input-grid">
+                <div class="input-group">
+                    <label for="current-astrite">Current Astrite</label>
+                    <input type="number" id="current-astrite" value="0" min="0" step="100">
+                </div>
+                <div class="input-group">
+                    <label for="current-tides">Radiant Tides (Limited Pulls)</label>
+                    <input type="number" id="current-tides" value="0" min="0">
+                </div>
+                <div class="input-group">
+                    <label for="current-pity">Current Pity Count</label>
+                    <input type="number" id="current-pity" value="0" min="0" max="79">
+                    <span class="input-hint">Pulls since your last 5-star (0-79)</span>
+                </div>
+                <div class="input-group">
+                    <label for="guarantee-status">50/50 or Guaranteed?</label>
+                    <select id="guarantee-status">
+                        <option value="5050">50/50 (haven't lost yet)</option>
+                        <option value="guaranteed">Guaranteed (lost last 50/50)</option>
+                    </select>
+                    <span class="input-hint">If you lost your last 50/50, next 5-star is guaranteed featured</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: YOUR TARGET -->
+        <section class="card" id="target-section">
+            <h2>Your Target</h2>
+            <p class="section-desc">Who do you want and when do they come?</p>
+
+            <div class="input-grid">
+                <div class="input-group">
+                    <label for="target-name">Target Character Name</label>
+                    <input type="text" id="target-name" placeholder="e.g., Suisui, Aemeath...">
+                </div>
+                <div class="input-group">
+                    <label for="target-date">Banner Start Date</label>
+                    <input type="date" id="target-date" value="2026-07-30">
+                    <span class="input-hint">When the banner goes live</span>
+                </div>
+                <div class="input-group">
+                    <label for="target-end-date">Banner End Date</label>
+                    <input type="date" id="target-end-date" value="2026-08-20">
+                    <span class="input-hint">Last day to pull</span>
+                </div>
+                <div class="input-group">
+                    <label for="target-copies">Copies Wanted</label>
+                    <select id="target-copies">
+                        <option value="1">S0 (1 copy)</option>
+                        <option value="2">S1 (2 copies)</option>
+                        <option value="3">S2 (3 copies)</option>
+                        <option value="7">S6 (7 copies - Max)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="upcoming-banners">
+                <h3>Upcoming Banners (v3.5)</h3>
+                <div class="banner-timeline">
+                    <div class="banner-item" data-start="2026-07-10" data-end="2026-07-30">
+                        <span class="banner-phase">Phase 1</span>
+                        <span class="banner-chars">Yangyang: Xuanling, Lynae (rerun), Luuk Herssen (rerun)</span>
+                        <span class="banner-dates">Jul 10 - Jul 30</span>
+                    </div>
+                    <div class="banner-item" data-start="2026-07-30" data-end="2026-08-20">
+                        <span class="banner-phase">Phase 2</span>
+                        <span class="banner-chars">Suisui (NEW - Glacio Healer), Aemeath (rerun)</span>
+                        <span class="banner-dates">Jul 30 - Aug 20</span>
+                    </div>
+                    <div class="banner-item special" data-start="2026-07-10" data-end="2026-08-20">
+                        <span class="banner-phase">Starpath</span>
+                        <span class="banner-chars">Pick: Jiyan/Yinlin/Jinhsi/Changli/Zhezhi/Xiangli Yao</span>
+                        <span class="banner-dates">Full Patch (10 free pulls!)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: INCOME SOURCES -->
+        <section class="card" id="income-section">
+            <h2>Your Income Sources</h2>
+            <p class="section-desc">Check all Astrite sources you'll collect before the banner ends.</p>
+
+            <div class="income-categories">
+                <div class="income-cat">
+                    <h3>Daily & Weekly</h3>
+                    <div class="income-items">
+                        <label class="income-item">
+                            <input type="checkbox" data-source="dailies" data-per-day="60" checked>
+                            <span class="income-name">Daily Quests</span>
+                            <span class="income-amount">60/day</span>
+                        </label>
+                        <label class="income-item">
+                            <input type="checkbox" data-source="lunite" data-per-day="90">
+                            <span class="income-name">Lunite Subscription (Monthly Card)</span>
+                            <span class="income-amount">90/day</span>
+                        </label>
+                        <label class="income-item">
+                            <input type="checkbox" data-source="weekly-sub" data-flat="1600">
+                            <span class="income-name">Weekly Subscription (one-time purchase)</span>
+                            <span class="income-amount">~1,600 total</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="income-cat">
+                    <h3>Recurring Content</h3>
+                    <div class="income-items">
+                        <label class="income-item">
+                            <input type="checkbox" data-source="toa" data-flat="700" checked>
+                            <span class="income-name">Tower of Adversity (full clear)</span>
+                            <span class="income-amount">700/reset</span>
+                        </label>
+                        <label class="income-item">
+                            <input type="checkbox" data-source="bp-free" data-flat="500" checked>
+                            <span class="income-name">Battle Pass (Free Track)</span>
+                            <span class="income-amount">~500</span>
+                        </label>
+                        <label class="income-item">
+                            <input type="checkbox" data-source="bp-paid" data-flat="680">
+                            <span class="income-name">Battle Pass (Paid Track)</span>
+                            <span class="income-amount">+680</span>
+                        </label>
+                        <label class="income-item">
+                            <input type="checkbox" data-source="codes" data-flat="300" checked>
+                            <span class="income-name">Redemption Codes (Livestream + misc)</span>
+                            <span class="income-amount">~300</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="income-cat">
+                    <h3>Patch-Specific</h3>
+                    <div class="income-items">
+                        <label class="income-item">
+                            <input type="checkbox" data-source="events" data-flat="2500" checked>
+                            <span class="income-name">Patch Events (average)</span>
+                            <span class="income-amount">~2,500</span>
+                        </label>
+                        <label class="income-item">
+                            <input type="checkbox" data-source="maintenance" data-flat="600" checked>
+                            <span class="income-name">Maintenance Compensation</span>
+                            <span class="income-amount">600</span>
+                        </label>
+                        <label class="income-item">
+                            <input type="checkbox" data-source="story" data-flat="400" checked>
+                            <span class="income-name">New Story/Quest Astrite</span>
+                            <span class="income-amount">~400</span>
+                        </label>
+                        <label class="income-item">
+                            <input type="checkbox" data-source="exploration" data-flat="0">
+                            <span class="income-name">New Region Exploration</span>
+                            <span class="income-amount">Varies</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="income-cat">
+                    <h3>One-Time (Unclaimed)</h3>
+                    <div class="income-items">
+                        <label class="income-item">
+                            <input type="checkbox" data-source="unclaimed-explore" data-flat="0">
+                            <span class="income-name">Unclaimed Exploration Chests</span>
+                            <span class="income-amount custom-input">
+                                <input type="number" id="explore-custom" value="0" min="0" step="100" placeholder="0">
+                            </span>
+                        </label>
+                        <label class="income-item">
+                            <input type="checkbox" data-source="unclaimed-quests" data-flat="0">
+                            <span class="income-name">Unclaimed Side Quests</span>
+                            <span class="income-amount custom-input">
+                                <input type="number" id="quest-custom" value="0" min="0" step="50" placeholder="0">
+                            </span>
+                        </label>
+                        <label class="income-item">
+                            <input type="checkbox" data-source="unclaimed-achievements" data-flat="0">
+                            <span class="income-name">Unclaimed Achievements</span>
+                            <span class="income-amount custom-input">
+                                <input type="number" id="achieve-custom" value="0" min="0" step="50" placeholder="0">
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="income-cat">
+                    <h3>Paid Options (Last Resort)</h3>
+                    <div class="income-items">
+                        <label class="income-item paid">
+                            <input type="checkbox" data-source="top-up-small" data-flat="980">
+                            <span class="income-name">Small Top-Up ($10)</span>
+                            <span class="income-amount">980 (first: 1960)</span>
+                        </label>
+                        <label class="income-item paid">
+                            <input type="checkbox" data-source="top-up-medium" data-flat="3280">
+                            <span class="income-name">Medium Top-Up ($30)</span>
+                            <span class="income-amount">3,280 (first: 6560)</span>
+                        </label>
+                        <label class="income-item paid">
+                            <input type="checkbox" data-source="top-up-large" data-flat="6480">
+                            <span class="income-name">Large Top-Up ($50)</span>
+                            <span class="income-amount">6,480 (first: 12960)</span>
+                        </label>
+                        <label class="income-item paid">
+                            <input type="checkbox" data-source="top-up-whale" data-flat="12960">
+                            <span class="income-name">Whale Top-Up ($100)</span>
+                            <span class="income-amount">12,960 (first: 25920)</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CALCULATE BUTTON -->
+        <div class="calc-action">
+            <button id="calculate-btn" class="btn-calculate">Calculate My Path to This 5-Star</button>
+        </div>
+
+        <!-- SECTION 4: RESULTS -->
+        <section class="card results-card" id="results-section" style="display:none;">
+            <h2>Your Pull Roadmap</h2>
+            <div id="results-content"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>WuWa Pull Calculator | 160 Astrite = 1 Pull | Hard Pity at 80 | Soft Pity from ~64</p>
+        <p class="sources">Data from community resources. Content rephrased for compliance.</p>
+    </footer>
+
+    <script src="pull-calc.js"></script>
+</body>
+</html>
