@@ -1,41 +1,41 @@
 // === WuWa Tower Companion - Ultimate App ===
 
 // =============================================
-// CHARACTER DATABASE WITH IMAGES
+// CHARACTER DATABASE
 // =============================================
 const CHARS = {
     // SS-Tier DPS
-    "Sigrika": { element: "spectro", role: "DPS", rarity: 5, img: "https://static.wikia.nocookie.net/wutheringwaves/images/0/0f/Sigrika_Icon.png" },
-    "Aemeath": { element: "havoc", role: "DPS", rarity: 5, img: "https://static.wikia.nocookie.net/wutheringwaves/images/a/a5/Aemeath_Icon.png" },
-    "Augusta": { element: "electro", role: "DPS", rarity: 5, img: "https://static.wikia.nocookie.net/wutheringwaves/images/f/f5/Augusta_Icon.png" },
-    "Phrolova": { element: "havoc", role: "DPS", rarity: 5, img: "https://static.wikia.nocookie.net/wutheringwaves/images/4/4d/Phrolova_Icon.png" },
-    "Hiyuki": { element: "glacio", role: "DPS", rarity: 5, img: "https://static.wikia.nocookie.net/wutheringwaves/images/2/26/Hiyuki_Icon.png" },
-    "Cartethyia": { element: "glacio", role: "DPS", rarity: 5, img: "https://static.wikia.nocookie.net/wutheringwaves/images/8/88/Cartethyia_Icon.png" },
-    "Jinhsi": { element: "spectro", role: "DPS", rarity: 5, img: "https://static.wikia.nocookie.net/wutheringwaves/images/d/d1/Jinhsi_Icon.png" },
-    "Camellya": { element: "havoc", role: "DPS", rarity: 5, img: "https://static.wikia.nocookie.net/wutheringwaves/images/8/8c/Camellya_Icon.png" },
-    "Changli": { element: "fusion", role: "DPS", rarity: 5, img: "https://static.wikia.nocookie.net/wutheringwaves/images/d/d3/Changli_Icon.png" },
-    "Calcharo": { element: "electro", role: "DPS", rarity: 5, img: "https://static.wikia.nocookie.net/wutheringwaves/images/3/3e/Calcharo_Icon.png" },
-    "Jiyan": { element: "aero", role: "DPS", rarity: 5, img: "https://static.wikia.nocookie.net/wutheringwaves/images/e/e4/Jiyan_Icon.png" },
-    "Encore": { element: "fusion", role: "DPS", rarity: 5, img: "https://static.wikia.nocookie.net/wutheringwaves/images/b/b1/Encore_Icon.png" },
-    "Xiangli Yao": { element: "electro", role: "DPS", rarity: 5, img: "https://static.wikia.nocookie.net/wutheringwaves/images/6/68/Xiangli_Yao_Icon.png" },
+    "Sigrika": { element: "spectro", role: "DPS", rarity: 5 },
+    "Aemeath": { element: "havoc", role: "DPS", rarity: 5 },
+    "Augusta": { element: "electro", role: "DPS", rarity: 5 },
+    "Phrolova": { element: "havoc", role: "DPS", rarity: 5 },
+    "Hiyuki": { element: "glacio", role: "DPS", rarity: 5 },
+    "Cartethyia": { element: "glacio", role: "DPS", rarity: 5 },
+    "Jinhsi": { element: "spectro", role: "DPS", rarity: 5 },
+    "Camellya": { element: "havoc", role: "DPS", rarity: 5 },
+    "Changli": { element: "fusion", role: "DPS", rarity: 5 },
+    "Calcharo": { element: "electro", role: "DPS", rarity: 5 },
+    "Jiyan": { element: "aero", role: "DPS", rarity: 5 },
+    "Encore": { element: "fusion", role: "DPS", rarity: 5 },
+    "Xiangli Yao": { element: "electro", role: "DPS", rarity: 5 },
     // Sub DPS / Support
-    "Ciaccona": { element: "aero", role: "SUP", rarity: 5, img: "https://static.wikia.nocookie.net/wutheringwaves/images/c/c6/Ciaccona_Icon.png" },
-    "Qiuyuan": { element: "spectro", role: "SUB", rarity: 5, img: "" },
-    "Cantarella": { element: "havoc", role: "SUB", rarity: 5, img: "" },
-    "Yinlin": { element: "electro", role: "SUB", rarity: 5, img: "https://static.wikia.nocookie.net/wutheringwaves/images/3/39/Yinlin_Icon.png" },
-    "Zhezhi": { element: "glacio", role: "SUB", rarity: 5, img: "https://static.wikia.nocookie.net/wutheringwaves/images/6/6f/Zhezhi_Icon.png" },
-    "Lynae": { element: "fusion", role: "SUB", rarity: 5, img: "" },
-    "Mornye": { element: "havoc", role: "SUP", rarity: 5, img: "" },
-    "Mortefi": { element: "fusion", role: "SUB", rarity: 4, img: "https://static.wikia.nocookie.net/wutheringwaves/images/5/56/Mortefi_Icon.png" },
-    "Sanhua": { element: "glacio", role: "SUB", rarity: 4, img: "https://static.wikia.nocookie.net/wutheringwaves/images/e/ec/Sanhua_Icon.png" },
+    "Ciaccona": { element: "aero", role: "SUP", rarity: 5 },
+    "Qiuyuan": { element: "spectro", role: "SUB", rarity: 5 },
+    "Cantarella": { element: "havoc", role: "SUB", rarity: 5 },
+    "Yinlin": { element: "electro", role: "SUB", rarity: 5 },
+    "Zhezhi": { element: "glacio", role: "SUB", rarity: 5 },
+    "Lynae": { element: "fusion", role: "SUB", rarity: 5 },
+    "Mornye": { element: "havoc", role: "SUP", rarity: 5 },
+    "Mortefi": { element: "fusion", role: "SUB", rarity: 4 },
+    "Sanhua": { element: "glacio", role: "SUB", rarity: 4 },
     // Healers
-    "Shorekeeper": { element: "spectro", role: "HEAL", rarity: 5, img: "https://static.wikia.nocookie.net/wutheringwaves/images/d/dd/Shorekeeper_Icon.png" },
-    "Verina": { element: "spectro", role: "HEAL", rarity: 5, img: "https://static.wikia.nocookie.net/wutheringwaves/images/c/c4/Verina_Icon.png" },
-    "Baizhi": { element: "glacio", role: "HEAL", rarity: 4, img: "https://static.wikia.nocookie.net/wutheringwaves/images/b/b8/Baizhi_Icon.png" },
+    "Shorekeeper": { element: "spectro", role: "HEAL", rarity: 5 },
+    "Verina": { element: "spectro", role: "HEAL", rarity: 5 },
+    "Baizhi": { element: "glacio", role: "HEAL", rarity: 4 },
     // F2P
-    "Rover (Havoc)": { element: "havoc", role: "DPS", rarity: 4, img: "" },
-    "Danjin": { element: "havoc", role: "SUB", rarity: 4, img: "https://static.wikia.nocookie.net/wutheringwaves/images/9/91/Danjin_Icon.png" },
-    "Yangyang": { element: "aero", role: "SUP", rarity: 4, img: "https://static.wikia.nocookie.net/wutheringwaves/images/b/b1/Yangyang_Icon.png" },
+    "Rover (Havoc)": { element: "havoc", role: "DPS", rarity: 4 },
+    "Danjin": { element: "havoc", role: "SUB", rarity: 4 },
+    "Yangyang": { element: "aero", role: "SUP", rarity: 4 },
 };
 
 // =============================================
@@ -162,17 +162,11 @@ function initNavigation() {
 function renderCharAvatar(name) {
     const char = CHARS[name] || { element: "spectro", role: "DPS", rarity: 4 };
     const initials = name.split(' ').map(w => w[0]).join('').substring(0, 2);
-    
-    // Use image if available, otherwise initials with gradient
-    const imgContent = char.img 
-        ? `<img src="${char.img}" alt="${name}" onerror="this.style.display='none';this.nextSibling.style.display='flex'">`
-        : '';
-    const fallback = `<span style="${char.img ? 'display:none' : 'display:flex'}" class="avatar-initials">${initials}</span>`;
 
     return `
         <div class="char-card">
             <div class="char-avatar ${char.element}">
-                ${imgContent}${fallback}
+                <span class="avatar-initials">${initials}</span>
             </div>
             <span class="char-name">${name}</span>
             <span class="char-role">${char.role}</span>

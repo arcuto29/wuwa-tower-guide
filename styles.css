@@ -485,10 +485,7 @@ body {
     box-shadow: 0 0 20px rgba(255,255,255,0.2);
 }
 .char-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
+    display: none;
 }
 .char-avatar.glacio { background: linear-gradient(135deg, #1a3a4a, #7ec8e3); border-color: var(--glacio); }
 .char-avatar.fusion { background: linear-gradient(135deg, #3a1a0a, #ff6b35); border-color: var(--fusion); }
