@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Shield, Zap, AlertTriangle, Clock } from 'lucide-react'
+import { Shield, Zap, AlertTriangle, Clock, Crown } from 'lucide-react'
+import { CHARACTERS, ELEMENT_COLORS } from '../data/characters'
 
 // Tower resets every 28 days. This calculates the next reset from a known anchor date.
 function getResetInfo() {
@@ -12,8 +13,11 @@ function getResetInfo() {
   const currentCycleDay = daysSinceAnchor % CYCLE_DAYS
   const daysUntilReset = Math.ceil(CYCLE_DAYS - currentCycleDay)
   const nextReset = new Date(now.getTime() + daysUntilReset * 24 * 60 * 60 * 1000)
-  const hoursLeft = Math.floor((daysUntilReset % 1) * 24)
-  return { daysUntilReset: Math.floor(daysUntilReset), nextReset, currentCycleDay: Math.floor(currentCycleDay), hoursLeft }
+  const rotationNumber = Math.floor(daysSinceAnchor / CYCLE_DAYS) + 1
+  // Determine if we're still in the rotation where these tips are accurate
+  const tipsRotation = 1 // This data is for rotation 1 (Jul 20 - Aug 17 2026)
+  const tipsOutdated = rotationNumber > tipsRotation
+  return { daysUntilReset: Math.floor(daysUntilReset), nextReset, currentCycleDay: Math.floor(currentCycleDay), rotationNumber, tipsOutdated }
 }
 
 const TOWER_INFO = [
@@ -67,6 +71,42 @@ const COMBAT_TIPS = [
   { icon: "📊", title: "Min Stats", desc: "2000+ ATK, 50% CR, 250% CD, Lv90, Echoes +25, Skills 6-8-8-8-6." },
 ]
 
+const RECOMMENDED_TEAMS = [
+  {
+    tower: "Hazard",
+    tier: "SS",
+    teams: [
+      { name: "Sigrika Hypercarry", chars: ["Sigrika", "Qiuyuan", "Shorekeeper"], why: "Best Echo Skill spam in the game. Strips RES stacks while building the rotation buff. #1 pick this rotation." },
+      { name: "Aemeath Nuke", chars: ["Aemeath", "Lynae", "Mornye"], why: "Highest single-target damage. Tune Rupture Mode one-shots bosses on Floor 4." },
+      { name: "Augusta Time-Stop", chars: ["Augusta", "Yinlin", "Shorekeeper"], why: "7-second Liberation freeze gives you breathing room to reset buffs. Great for Floor 1-2." },
+    ]
+  },
+  {
+    tower: "Resonant",
+    tier: "S",
+    teams: [
+      { name: "Augusta On-Field", chars: ["Augusta", "Yinlin", "Shorekeeper"], why: "Basic ATK buff stacks to 40% and never resets while she's on-field. Made for this tower." },
+      { name: "Sigrika Sustained", chars: ["Sigrika", "Qiuyuan", "Verina"], why: "Sigrika's kit fires tons of Basic ATK hits = fast stacking. Great on Floors 3-4." },
+    ]
+  },
+  {
+    tower: "Echoing",
+    tier: "S",
+    teams: [
+      { name: "Cartethyia Burst", chars: ["Cartethyia", "Ciaccona", "Shorekeeper"], why: "Free +20% CR +65% CD when HP>75%. Shorekeeper makes this permanent. Burst hits insanely hard." },
+      { name: "Jinhsi Spectro", chars: ["Jinhsi", "Zhezhi", "Verina"], why: "Jinhsi's burst with the free crit stats is devastating. Verina keeps HP topped." },
+    ]
+  },
+  {
+    tower: "Budget (F2P)",
+    tier: "A",
+    teams: [
+      { name: "Havoc F2P", chars: ["Rover (Havoc)", "Danjin", "Baizhi"], why: "Completely free team. Use on easy floors (Resonant 1-2, Echoing 1-2) to save Vigor." },
+      { name: "Fusion Budget", chars: ["Encore", "Sanhua", "Baizhi"], why: "Encore burst is strong even at low investment. Sanhua is free from quests." },
+    ]
+  },
+]
+
 export default function TowerTab() {
   const [reset, setReset] = useState(getResetInfo())
 
@@ -84,7 +124,7 @@ export default function TowerTab() {
       <div className="bg-gradient-to-r from-accent/10 to-accent-2/10 border border-accent/30 rounded-2xl p-4 mb-6 flex items-center gap-4">
         <Clock size={20} className="text-accent flex-shrink-0" />
         <div className="flex-1">
-          <div className="text-xs text-white/50 uppercase font-bold">Next Tower Reset</div>
+          <div className="text-xs text-white/50 uppercase font-bold">Next Tower Reset (Rotation #{reset.rotationNumber})</div>
           <div className="text-lg font-extrabold text-white">
             {reset.daysUntilReset} days remaining
           </div>
@@ -97,6 +137,17 @@ export default function TowerTab() {
           <div className="text-[10px] text-white/40">left</div>
         </div>
       </div>
+
+      {/* Outdated warning if rotation changed */}
+      {reset.tipsOutdated && (
+        <div className="bg-yellow/10 border border-yellow/30 rounded-xl p-4 mb-6 flex gap-3 items-start">
+          <span className="text-lg">⚠️</span>
+          <div>
+            <p className="text-xs font-bold text-yellow-400">New rotation detected!</p>
+            <p className="text-[11px] text-white/50 mt-0.5">Tower buffs and recommended teams below are from last rotation. The <strong>team builder</strong> in "My Roster" tab still works — it picks the best team from your characters regardless of rotation. Check patch notes for new buffs!</p>
+          </div>
+        </div>
+      )}
 
       {/* Tower cards */}
       {TOWER_INFO.map(tower => {
@@ -131,6 +182,55 @@ export default function TowerTab() {
           </div>
         )
       })}
+
+      {/* Recommended Teams */}
+      <h2 className="font-bold text-sm text-white/70 uppercase tracking-wide mt-8 mb-3 flex items-center gap-2">
+        <Crown size={14} className="text-yellow-400" /> Recommended Teams This Rotation
+      </h2>
+      <p className="text-xs text-white/40 mb-4">The best teams to aim for. If you don't own them yet, these are worth pulling for.</p>
+
+      {RECOMMENDED_TEAMS.map((section, si) => (
+        <motion.div key={section.tower} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: si * 0.1 }}
+          className="mb-5">
+          <div className="flex items-center gap-2 mb-2">
+            <h3 className="font-bold text-sm">{section.tower}</h3>
+            <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded ${
+              section.tier === 'SS' ? 'bg-accent/15 text-accent' :
+              section.tier === 'S' ? 'bg-yellow/15 text-yellow-400' :
+              'bg-green/15 text-green'
+            }`}>{section.tier} Tier</span>
+          </div>
+          <div className="space-y-2">
+            {section.teams.map((team, ti) => (
+              <div key={ti} className="bg-card border border-border rounded-xl p-4 hover:border-white/10 transition-all">
+                <div className="flex items-center gap-2 mb-2.5">
+                  <span className="text-xs font-bold text-white/90">{team.name}</span>
+                </div>
+                <div className="flex gap-2 mb-2.5 flex-wrap">
+                  {team.chars.map(name => {
+                    const ch = CHARACTERS.find(x => x.name === name)
+                    return (
+                      <div key={name} className="flex items-center gap-1.5 bg-surface border border-border rounded-lg px-2.5 py-1.5">
+                        {ch?.img ? (
+                          <img src={ch.img} alt={name} className="w-6 h-6 rounded-md object-cover"
+                            style={{ border: `1px solid ${ELEMENT_COLORS[ch.element]}44` }} />
+                        ) : (
+                          <div className="w-6 h-6 rounded-md flex items-center justify-center text-[9px] font-bold"
+                            style={{ background: `${ELEMENT_COLORS[ch?.element]}33` }}>
+                            {name.slice(0,2)}
+                          </div>
+                        )}
+                        <span className="text-[11px] font-semibold">{name}</span>
+                      </div>
+                    )
+                  })}
+                </div>
+                <p className="text-[11px] text-white/40 leading-relaxed">{team.why}</p>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      ))}
 
       {/* Combat tips */}
       <h2 className="font-bold text-sm text-white/70 uppercase tracking-wide mt-8 mb-3">Combat Fundamentals</h2>
