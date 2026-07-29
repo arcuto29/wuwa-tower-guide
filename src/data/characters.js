@@ -1,0 +1,50 @@
+const IMG_BASE = 'https://ryanbenson.github.io/wuthering-waves-assets/images/'
+
+export const CHARACTERS = [
+  { name: "Sigrika", element: "spectro", role: "DPS", rarity: 5, img: `${IMG_BASE}Sigrika.png` },
+  { name: "Aemeath", element: "havoc", role: "DPS", rarity: 5, img: `${IMG_BASE}Aemeath.png` },
+  { name: "Augusta", element: "electro", role: "DPS", rarity: 5, img: `${IMG_BASE}Augusta.png` },
+  { name: "Phrolova", element: "havoc", role: "DPS", rarity: 5, img: `${IMG_BASE}Phrolova.png` },
+  { name: "Hiyuki", element: "glacio", role: "DPS", rarity: 5, img: `${IMG_BASE}Hiyuki.png` },
+  { name: "Cartethyia", element: "glacio", role: "DPS", rarity: 5, img: `${IMG_BASE}Cartethyia.png` },
+  { name: "Jinhsi", element: "spectro", role: "DPS", rarity: 5, img: `${IMG_BASE}Jinhsi.png` },
+  { name: "Camellya", element: "havoc", role: "DPS", rarity: 5, img: `${IMG_BASE}Camellya.png` },
+  { name: "Changli", element: "fusion", role: "DPS", rarity: 5, img: `${IMG_BASE}Changli.png` },
+  { name: "Calcharo", element: "electro", role: "DPS", rarity: 5, img: `${IMG_BASE}Calcharo.png` },
+  { name: "Jiyan", element: "aero", role: "DPS", rarity: 5, img: `${IMG_BASE}Jiyan.png` },
+  { name: "Encore", element: "fusion", role: "DPS", rarity: 5, img: `${IMG_BASE}Encore.png` },
+  { name: "Xiangli Yao", element: "electro", role: "DPS", rarity: 5, img: `${IMG_BASE}XiangliYao.png` },
+  { name: "Ciaccona", element: "aero", role: "SUP", rarity: 5, img: `${IMG_BASE}Ciaccona.png` },
+  { name: "Qiuyuan", element: "spectro", role: "SUB", rarity: 5, img: `${IMG_BASE}Qiuyuan.png` },
+  { name: "Cantarella", element: "havoc", role: "SUB", rarity: 5, img: `${IMG_BASE}Cantarella.png` },
+  { name: "Yinlin", element: "electro", role: "SUB", rarity: 5, img: `${IMG_BASE}Yinlin.png` },
+  { name: "Zhezhi", element: "glacio", role: "SUB", rarity: 5, img: `${IMG_BASE}Zhezhi.png` },
+  { name: "Lynae", element: "fusion", role: "SUB", rarity: 5, img: `${IMG_BASE}Lynae.png` },
+  { name: "Mornye", element: "havoc", role: "SUP", rarity: 5, img: `${IMG_BASE}Mornye.png` },
+  { name: "Shorekeeper", element: "spectro", role: "HEAL", rarity: 5, img: `${IMG_BASE}Shorekeeper.png` },
+  { name: "Verina", element: "spectro", role: "HEAL", rarity: 5, img: `${IMG_BASE}Verina.png` },
+  { name: "Suisui", element: "glacio", role: "HEAL", rarity: 5, img: `${IMG_BASE}Suisui.png` },
+  { name: "Mortefi", element: "fusion", role: "SUB", rarity: 4, img: `${IMG_BASE}Mortefi.png` },
+  { name: "Sanhua", element: "glacio", role: "SUB", rarity: 4, img: `${IMG_BASE}Sanhua.png` },
+  { name: "Baizhi", element: "glacio", role: "HEAL", rarity: 4, img: `${IMG_BASE}Baizhi.png` },
+  { name: "Danjin", element: "havoc", role: "SUB", rarity: 4, img: `${IMG_BASE}Danjin.png` },
+  { name: "Yangyang", element: "aero", role: "SUP", rarity: 4, img: `${IMG_BASE}Yangyang.png` },
+  { name: "Rover (Havoc)", element: "havoc", role: "DPS", rarity: 4, img: null },
+  { name: "Rover (Spectro)", element: "spectro", role: "DPS", rarity: 4, img: null },
+  { name: "Taoqi", element: "havoc", role: "SUP", rarity: 4, img: `${IMG_BASE}Taoqi.png` },
+  { name: "Yuanwu", element: "electro", role: "SUP", rarity: 4, img: `${IMG_BASE}Yuanwu.png` },
+  { name: "Chixia", element: "fusion", role: "DPS", rarity: 4, img: `${IMG_BASE}Chixia.png` },
+  { name: "Lumi", element: "glacio", role: "SUP", rarity: 4, img: `${IMG_BASE}Lumi.png` },
+  { name: "Aalto", element: "aero", role: "SUB", rarity: 4, img: `${IMG_BASE}Aalto.png` },
+]
+
+export const ELEMENTS = ['all','glacio','fusion','electro','aero','spectro','havoc']
+
+export const ELEMENT_COLORS = {
+  glacio: '#60bfda',
+  fusion: '#f97316',
+  electro: '#a78bfa',
+  aero: '#4ade80',
+  spectro: '#facc15',
+  havoc: '#c084fc',
+}
