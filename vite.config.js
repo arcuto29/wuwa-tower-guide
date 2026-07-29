@@ -4,5 +4,6 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  base: '/wuwa-tower-guide/',
+  // Use relative paths so Electron can load from file://
+  base: './',
 })

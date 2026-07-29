@@ -43,24 +43,55 @@ export default function RosterTab() {
         ))}
       </div>
 
-      <div className="grid grid-cols-4 sm:grid-cols-5 gap-2.5 mb-6">
-        {filtered.map(c => {
+      <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 mb-6">
+        {filtered.map((c, ci) => {
           const sel = owned.has(c.name)
           const initials = c.name.split(' ').map(w => w[0]).join('').slice(0,2)
           return (
-            <motion.button key={c.name} whileTap={{ scale: 0.92 }} onClick={() => toggle(c.name)}
-              className={`relative flex flex-col items-center gap-1 p-2 rounded-2xl border-2 transition-all overflow-hidden
-                ${sel ? 'border-accent bg-accent/5 shadow-lg shadow-accent/20' : 'border-border bg-surface hover:border-white/15'}`}>
+            <motion.button key={c.name}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: ci * 0.02 }}
+              whileTap={{ scale: 0.9 }}
+              whileHover={{ scale: 1.05, y: -4 }}
+              onClick={() => toggle(c.name)}
+              className={`relative flex flex-col items-center gap-1.5 p-2.5 rounded-2xl border-2 transition-all overflow-hidden
+                ${sel
+                  ? 'border-accent bg-accent/8 shadow-xl shadow-accent/25'
+                  : 'border-border bg-surface hover:border-white/20 hover:shadow-lg'}`}
+            >
+              {/* Glow effect when selected */}
+              {sel && (
+                <motion.div
+                  className="absolute inset-0 pointer-events-none"
+                  style={{ background: `radial-gradient(circle at 50% 30%, ${ELEMENT_COLORS[c.element]}30, transparent 70%)` }}
+                  animate={{ opacity: [0.5, 1, 0.5] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                />
+              )}
               {sel && <div className="absolute top-1.5 right-1.5 w-5 h-5 bg-accent rounded-full flex items-center justify-center shadow-lg z-10"><Check size={11} strokeWidth={3}/></div>}
-              <div className="w-14 h-14 rounded-xl overflow-hidden flex items-center justify-center"
-                style={{ background: `linear-gradient(135deg, ${ELEMENT_COLORS[c.element]}22, ${ELEMENT_COLORS[c.element]}66)`, border: `1px solid ${ELEMENT_COLORS[c.element]}44` }}>
-                {c.img ? <img src={c.img} alt={c.name} className="w-full h-full object-cover" loading="lazy" />
-                  : <span className="text-lg font-extrabold text-white/80">{initials}</span>}
+
+              {/* BIG character portrait */}
+              <div className="w-20 h-20 rounded-2xl overflow-hidden flex items-center justify-center relative"
+                style={{
+                  background: `linear-gradient(160deg, ${ELEMENT_COLORS[c.element]}15, ${ELEMENT_COLORS[c.element]}50, ${ELEMENT_COLORS[c.element]}20)`,
+                  border: `2px solid ${ELEMENT_COLORS[c.element]}${sel ? '99' : '33'}`,
+                  boxShadow: sel ? `0 0 20px ${ELEMENT_COLORS[c.element]}40, inset 0 0 20px ${ELEMENT_COLORS[c.element]}10` : 'none'
+                }}>
+                {c.img ? <img src={c.img} alt={c.name} className="w-full h-full object-cover scale-110" loading="lazy" />
+                  : <span className="text-2xl font-extrabold text-white/80">{initials}</span>}
+                {/* Rarity stars overlay */}
+                <div className="absolute bottom-0 inset-x-0 h-5 bg-gradient-to-t from-black/60 to-transparent flex items-end justify-center pb-0.5">
+                  <span className="text-[8px]" style={{ color: c.rarity === 5 ? '#facc15' : '#a78bfa' }}>
+                    {'★'.repeat(c.rarity)}
+                  </span>
+                </div>
               </div>
-              <span className="text-[10px] font-semibold text-white/60 text-center leading-tight w-full truncate mt-0.5">{c.name}</span>
-              <div className="flex items-center gap-0.5">
-                <div className="w-2 h-2 rounded-full" style={{ background: ELEMENT_COLORS[c.element] }} />
-                <span className="text-[9px] text-white/30 uppercase">{c.role}</span>
+
+              <span className="text-[11px] font-bold text-white/70 text-center leading-tight w-full truncate">{c.name}</span>
+              <div className="flex items-center gap-1">
+                <div className="w-2.5 h-2.5 rounded-full" style={{ background: ELEMENT_COLORS[c.element], boxShadow: `0 0 6px ${ELEMENT_COLORS[c.element]}` }} />
+                <span className="text-[9px] text-white/40 uppercase font-bold">{c.role}</span>
               </div>
             </motion.button>
           )

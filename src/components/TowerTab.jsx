@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import { Shield, Zap, AlertTriangle, Clock, Crown } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Shield, Zap, AlertTriangle, Clock, Crown, Flame, Snowflake, Wind } from 'lucide-react'
 import { CHARACTERS, ELEMENT_COLORS } from '../data/characters'
 
-// Tower resets every 28 days. This calculates the next reset from a known anchor date.
 function getResetInfo() {
-  const RESET_ANCHOR = new Date('2026-07-20T04:00:00Z') // Known reset date
+  const RESET_ANCHOR = new Date('2026-07-20T04:00:00Z')
   const CYCLE_DAYS = 28
   const now = new Date()
   const diff = now - RESET_ANCHOR
@@ -14,101 +13,97 @@ function getResetInfo() {
   const daysUntilReset = Math.ceil(CYCLE_DAYS - currentCycleDay)
   const nextReset = new Date(now.getTime() + daysUntilReset * 24 * 60 * 60 * 1000)
   const rotationNumber = Math.floor(daysSinceAnchor / CYCLE_DAYS) + 1
-  // Determine if we're still in the rotation where these tips are accurate
-  const tipsRotation = 1 // This data is for rotation 1 (Jul 20 - Aug 17 2026)
-  const tipsOutdated = rotationNumber > tipsRotation
-  return { daysUntilReset: Math.floor(daysUntilReset), nextReset, currentCycleDay: Math.floor(currentCycleDay), rotationNumber, tipsOutdated }
+  return { daysUntilReset: Math.floor(daysUntilReset), nextReset, currentCycleDay: Math.floor(currentCycleDay), rotationNumber }
 }
 
-const TOWER_INFO = [
+const TOWERS = [
   {
-    name: "Hazard Tower", color: "#ff3b5c", icon: AlertTriangle,
-    buff: "Echo Skill stacking: +6% All-Attribute DMG per Echo Skill (x4). At 4 stacks, +36% Crit DMG.",
-    strategy: "Spam Echo Skills every rotation. Teams that fire multiple Echo Skills shred enemy RES while dealing damage.",
-    vigor: "5 per floor (20 total)",
+    id: 'hazard',
+    name: "Hazard Zone",
+    icon: AlertTriangle,
+    color: "#ff3b5c",
+    gradient: "from-red-900/40 via-red-800/20 to-transparent",
+    borderGlow: "shadow-[0_0_30px_rgba(255,59,92,0.15)]",
+    vigor: "5/floor",
+    buff: "Echo Skill → +6% All DMG (x4 stacks). At 4 stacks: +36% Crit DMG",
+    strategy: "Spam Echo Skills EVERY rotation. Each one strips enemy RES while building your damage.",
+    bestChars: ["Sigrika", "Augusta", "Aemeath", "Phrolova"],
     tips: [
-      "Use 2 of your strongest teams here — most rewards",
-      "Echo Skill spam = stacking buff + RES shred",
-      "Save Liberation for stagger/vulnerability windows",
-      "Learn boss attack patterns — parry > raw DPS",
-      "Sigrika, Augusta, Aemeath dominate this rotation",
+      "Your 2 STRONGEST teams go here",
+      "Echo Skill spam = damage + RES shred simultaneously",
+      "Save Liberation for after boss staggers",
+      "Parry timing > raw stats against bosses",
+    ],
+    floors: [
+      { num: "1-2", enemies: "Mixed mobs + mini-boss", difficulty: 3 },
+      { num: "3-4", enemies: "Elite boss, high HP", difficulty: 5 },
     ]
   },
   {
-    name: "Resonant Tower", color: "#60bfda", icon: Shield,
-    buff: "Basic ATK DMG grants +5% All-Attribute DMG for 6s, stacking up to 8x (40% total). Resets on swap.",
-    strategy: "Stay on ONE character. Don't swap. Let buff stack to 40% then burst. Hypercarries shine.",
-    vigor: "1+2+3+4 = 10 total",
+    id: 'resonant',
+    name: "Resonant Zone",
+    icon: Shield,
+    color: "#60bfda",
+    gradient: "from-cyan-900/40 via-cyan-800/20 to-transparent",
+    borderGlow: "shadow-[0_0_30px_rgba(96,191,218,0.15)]",
+    vigor: "1-4/floor",
+    buff: "Basic ATK → +5% All DMG per hit (x8 max = 40%). RESETS on character swap!",
+    strategy: "Pick ONE character and NEVER swap. Let the buff stack to 40% then obliterate.",
+    bestChars: ["Augusta", "Sigrika", "Jinhsi", "Camellya"],
     tips: [
-      "Budget team on floors 1-2 (3 vigor) — save best for 3-4",
-      "Buff RESETS on swap — commit to your DPS",
-      "Augusta and Sigrika are perfect (long on-field time)",
-      "Pair stages 1+4 (5 vigor) and 2+3 (5 vigor) same team",
-      "Don't overcomplicate — stay on-field and attack",
+      "Buff resets on swap — commit to your DPS!",
+      "Floors 1-2: use budget team (3 vigor only)",
+      "Floors 3-4: your on-field hypercarry",
+      "Augusta's kit is literally designed for this",
+    ],
+    floors: [
+      { num: "1-2", enemies: "Weak mobs", difficulty: 1 },
+      { num: "3-4", enemies: "Tanky elite + shields", difficulty: 4 },
     ]
   },
   {
-    name: "Echoing Tower", color: "#a78bfa", icon: Zap,
-    buff: "When HP > 75%: Crit Rate +20%, Crit DMG +65%. Drops if HP falls below.",
-    strategy: "NEVER let HP drop below 75%. Bring a strong healer. The free crit stats are insane.",
-    vigor: "1+2+3+4 = 10 total",
+    id: 'echoing',
+    name: "Echoing Zone",
+    icon: Zap,
+    color: "#a78bfa",
+    gradient: "from-purple-900/40 via-purple-800/20 to-transparent",
+    borderGlow: "shadow-[0_0_30px_rgba(167,139,250,0.15)]",
+    vigor: "1-4/floor",
+    buff: "HP above 75% → FREE +20% Crit Rate + 65% Crit DMG. Gone instantly if you drop.",
+    strategy: "Bring a healer. NEVER let HP drop below 75%. The free crit stats are god-tier.",
+    bestChars: ["Cartethyia", "Jinhsi", "Hiyuki", "Phrolova"],
     tips: [
-      "20% CR + 65% CD free = like god-tier echoes for free",
-      "Shorekeeper or Verina mandatory. Baizhi for budget",
-      "Take big hit → heal IMMEDIATELY before continuing",
-      "Cartethyia + Ciaccona + Shorekeeper = dream team",
-      "Budget: any DPS + sub + Baizhi. Just keep HP up!",
+      "+20% CR +65% CD is worth more than any echo upgrade",
+      "Shorekeeper / Verina = permanent buff uptime",
+      "Take hit → heal IMMEDIATELY before attacking again",
+      "Budget: literally any DPS + Baizhi works",
+    ],
+    floors: [
+      { num: "1-2", enemies: "Standard mobs", difficulty: 1 },
+      { num: "3-4", enemies: "Boss + AoE attacks", difficulty: 4 },
     ]
-  },
+  }
+]
+
+const META_TEAMS = [
+  { tower: "Hazard", tier: "SS", name: "Sigrika Hypercarry", chars: ["Sigrika", "Qiuyuan", "Shorekeeper"], why: "#1 Echo Skill spammer. Strips RES while stacking rotation buff." },
+  { tower: "Hazard", tier: "SS", name: "Aemeath Nuke", chars: ["Aemeath", "Lynae", "Mornye"], why: "Highest single-target burst. Tune Rupture one-shots Floor 4 bosses." },
+  { tower: "Resonant", tier: "S", name: "Augusta On-Field", chars: ["Augusta", "Yinlin", "Shorekeeper"], why: "Basic ATK stacks 40% without swapping. She was made for this tower." },
+  { tower: "Echoing", tier: "S", name: "Cartethyia Burst", chars: ["Cartethyia", "Ciaccona", "Shorekeeper"], why: "Free crit stats + Shorekeeper = permanent god mode. Burst hits insanely hard." },
+  { tower: "Budget", tier: "A", name: "F2P Havoc", chars: ["Rover (Havoc)", "Danjin", "Baizhi"], why: "Free team for easy floors. Saves Vigor for hard content." },
 ]
 
 const COMBAT_TIPS = [
-  { icon: "🔄", title: "Swap Cancel", desc: "Skill → instant swap cancels end-lag. Chain: Skill > Swap > Skill > Swap." },
-  { icon: "🔗", title: "Intro/Outro", desc: "Outro triggers Intro. Build teams where Outro buffs → DPS Intro." },
-  { icon: "🎯", title: "Parry > DPS", desc: "Perfect dodge = i-frames + counter. Learn boss parry timing." },
-  { icon: "⚡", title: "Liberation", desc: "Save ult for stagger windows. Don't waste on invuln phases." },
-  { icon: "💀", title: "Adds First", desc: "Boss + adds floors: kill adds first for clean boss DPS." },
-  { icon: "📊", title: "Min Stats", desc: "2000+ ATK, 50% CR, 250% CD, Lv90, Echoes +25, Skills 6-8-8-8-6." },
-]
-
-const RECOMMENDED_TEAMS = [
-  {
-    tower: "Hazard",
-    tier: "SS",
-    teams: [
-      { name: "Sigrika Hypercarry", chars: ["Sigrika", "Qiuyuan", "Shorekeeper"], why: "Best Echo Skill spam in the game. Strips RES stacks while building the rotation buff. #1 pick this rotation." },
-      { name: "Aemeath Nuke", chars: ["Aemeath", "Lynae", "Mornye"], why: "Highest single-target damage. Tune Rupture Mode one-shots bosses on Floor 4." },
-      { name: "Augusta Time-Stop", chars: ["Augusta", "Yinlin", "Shorekeeper"], why: "7-second Liberation freeze gives you breathing room to reset buffs. Great for Floor 1-2." },
-    ]
-  },
-  {
-    tower: "Resonant",
-    tier: "S",
-    teams: [
-      { name: "Augusta On-Field", chars: ["Augusta", "Yinlin", "Shorekeeper"], why: "Basic ATK buff stacks to 40% and never resets while she's on-field. Made for this tower." },
-      { name: "Sigrika Sustained", chars: ["Sigrika", "Qiuyuan", "Verina"], why: "Sigrika's kit fires tons of Basic ATK hits = fast stacking. Great on Floors 3-4." },
-    ]
-  },
-  {
-    tower: "Echoing",
-    tier: "S",
-    teams: [
-      { name: "Cartethyia Burst", chars: ["Cartethyia", "Ciaccona", "Shorekeeper"], why: "Free +20% CR +65% CD when HP>75%. Shorekeeper makes this permanent. Burst hits insanely hard." },
-      { name: "Jinhsi Spectro", chars: ["Jinhsi", "Zhezhi", "Verina"], why: "Jinhsi's burst with the free crit stats is devastating. Verina keeps HP topped." },
-    ]
-  },
-  {
-    tower: "Budget (F2P)",
-    tier: "A",
-    teams: [
-      { name: "Havoc F2P", chars: ["Rover (Havoc)", "Danjin", "Baizhi"], why: "Completely free team. Use on easy floors (Resonant 1-2, Echoing 1-2) to save Vigor." },
-      { name: "Fusion Budget", chars: ["Encore", "Sanhua", "Baizhi"], why: "Encore burst is strong even at low investment. Sanhua is free from quests." },
-    ]
-  },
+  { icon: "⚡", title: "Swap Cancel", desc: "Skill → instant swap. Cuts animation by 40%. Chain them." },
+  { icon: "🔗", title: "Intro/Outro", desc: "Outro buffs → DPS Intro. Build teams around this chain." },
+  { icon: "🎯", title: "Parry > DPS", desc: "Perfect dodge = i-frames + counter. Learn boss patterns." },
+  { icon: "💀", title: "Kill Adds First", desc: "Clean up adds for uninterrupted boss DPS windows." },
+  { icon: "📊", title: "Min Stats", desc: "2000 ATK • 50% CR • 250% CD • Lv90 • Echoes +25" },
 ]
 
 export default function TowerTab() {
   const [reset, setReset] = useState(getResetInfo())
+  const [expandedTower, setExpandedTower] = useState('hazard')
 
   useEffect(() => {
     const timer = setInterval(() => setReset(getResetInfo()), 60000)
@@ -117,132 +112,228 @@ export default function TowerTab() {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      <h1 className="text-2xl font-extrabold mb-1">Tower Tips</h1>
-      <p className="text-white/50 text-sm mb-4">Clear every tower this rotation.</p>
-
-      {/* Reset countdown */}
-      <div className="bg-gradient-to-r from-accent/10 to-accent-2/10 border border-accent/30 rounded-2xl p-4 mb-6 flex items-center gap-4">
-        <Clock size={20} className="text-accent flex-shrink-0" />
-        <div className="flex-1">
-          <div className="text-xs text-white/50 uppercase font-bold">Next Tower Reset (Rotation #{reset.rotationNumber})</div>
-          <div className="text-lg font-extrabold text-white">
-            {reset.daysUntilReset} days remaining
-          </div>
-          <div className="text-[10px] text-white/30">
-            Resets {reset.nextReset.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} • Day {reset.currentCycleDay}/28 of current cycle
-          </div>
+      {/* Hero section with animated particles */}
+      <div className="relative overflow-hidden rounded-2xl mb-5 p-5"
+        style={{ background: 'linear-gradient(135deg, rgba(255,59,92,0.08), rgba(124,58,237,0.08), rgba(96,191,218,0.05))' }}>
+        {/* Floating particles */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {[...Array(6)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-1 h-1 rounded-full bg-accent/40"
+              initial={{ x: `${Math.random() * 100}%`, y: '100%', opacity: 0 }}
+              animate={{ y: '-20%', opacity: [0, 1, 0] }}
+              transition={{ duration: 3 + Math.random() * 2, repeat: Infinity, delay: i * 0.7, ease: 'linear' }}
+            />
+          ))}
         </div>
-        <div className="text-right">
-          <div className="text-2xl font-extrabold text-accent">{reset.daysUntilReset}d</div>
-          <div className="text-[10px] text-white/40">left</div>
+
+        <div className="relative z-10">
+          <div className="flex items-center gap-2 mb-1">
+            <Swords size={20} className="text-accent" />
+            <h1 className="text-xl font-extrabold">Tower of Adversity</h1>
+          </div>
+          <p className="text-xs text-white/40 mb-4">Clear all floors. Earn 700 Astrite per reset.</p>
+
+          {/* Countdown ring */}
+          <div className="flex items-center gap-4">
+            <div className="relative w-14 h-14">
+              <svg className="w-full h-full -rotate-90" viewBox="0 0 56 56">
+                <circle cx="28" cy="28" r="24" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="3" />
+                <motion.circle cx="28" cy="28" r="24" fill="none" stroke="#ff3b5c" strokeWidth="3"
+                  strokeLinecap="round"
+                  initial={{ strokeDasharray: "0 151" }}
+                  animate={{ strokeDasharray: `${(reset.currentCycleDay / 28) * 151} 151` }}
+                  transition={{ duration: 1.5, ease: "easeOut" }}
+                />
+              </svg>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-sm font-extrabold text-accent">{reset.daysUntilReset}d</span>
+              </div>
+            </div>
+            <div>
+              <div className="text-sm font-bold">
+                {reset.daysUntilReset} days until reset
+              </div>
+              <div className="text-[10px] text-white/30">
+                Rotation #{reset.rotationNumber} • Day {reset.currentCycleDay}/28
+              </div>
+            </div>
+            <div className="ml-auto text-right">
+              <div className="text-lg font-extrabold text-yellow-400">700</div>
+              <div className="text-[9px] text-white/30">Astrite waiting</div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Outdated warning if rotation changed */}
-      {reset.tipsOutdated && (
-        <div className="bg-yellow/10 border border-yellow/30 rounded-xl p-4 mb-6 flex gap-3 items-start">
-          <span className="text-lg">⚠️</span>
-          <div>
-            <p className="text-xs font-bold text-yellow-400">New rotation detected!</p>
-            <p className="text-[11px] text-white/50 mt-0.5">Tower buffs and recommended teams below are from last rotation. The <strong>team builder</strong> in "My Roster" tab still works — it picks the best team from your characters regardless of rotation. Check patch notes for new buffs!</p>
-          </div>
-        </div>
-      )}
+      {/* Tower Cards - Interactive & Alive */}
+      <div className="space-y-3 mb-6">
+        {TOWERS.map((tower, ti) => {
+          const Icon = tower.icon
+          const isExpanded = expandedTower === tower.id
+          return (
+            <motion.div
+              key={tower.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: ti * 0.1 }}
+              className={`relative overflow-hidden rounded-2xl border transition-all duration-300 cursor-pointer ${tower.borderGlow}
+                ${isExpanded ? 'border-white/15' : 'border-border hover:border-white/10'}`}
+              onClick={() => setExpandedTower(isExpanded ? null : tower.id)}
+            >
+              {/* Background gradient */}
+              <div className={`absolute inset-0 bg-gradient-to-r ${tower.gradient} pointer-events-none`} />
 
-      {/* Tower cards */}
-      {TOWER_INFO.map(tower => {
-        const Icon = tower.icon
-        return (
-          <div key={tower.name} className="mb-6">
-            <div className="bg-card border border-border rounded-2xl overflow-hidden">
-              <div className="px-5 py-4 border-b border-border flex items-center gap-3">
-                <Icon size={18} style={{ color: tower.color }} />
-                <h2 className="font-bold">{tower.name}</h2>
-                <span className="text-[10px] font-bold text-yellow-400 ml-auto">{tower.vigor}</span>
-              </div>
-              <div className="p-5">
-                <div className="rounded-xl p-3 mb-4 border" style={{ background: `${tower.color}08`, borderColor: `${tower.color}30` }}>
-                  <p className="text-xs font-bold uppercase mb-1" style={{ color: `${tower.color}cc` }}>This Rotation's Buff</p>
-                  <p className="text-xs text-white/60">{tower.buff}</p>
+              {/* Pulsing glow when expanded */}
+              {isExpanded && (
+                <motion.div
+                  className="absolute top-0 left-0 w-full h-0.5"
+                  style={{ background: `linear-gradient(90deg, transparent, ${tower.color}, transparent)` }}
+                  animate={{ opacity: [0.3, 1, 0.3] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                />
+              )}
+
+              <div className="relative z-10 p-4">
+                {/* Header */}
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center"
+                    style={{ background: `${tower.color}20` }}>
+                    <Icon size={20} style={{ color: tower.color }} />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-bold text-sm">{tower.name}</h3>
+                    <p className="text-[10px] text-white/40">{tower.vigor} vigor</p>
+                  </div>
+                  <motion.div animate={{ rotate: isExpanded ? 180 : 0 }} className="text-white/30">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
+                  </motion.div>
                 </div>
-                <div className="bg-accent/5 border border-accent/20 rounded-xl p-3 mb-4">
-                  <p className="text-xs font-bold text-accent/80 mb-1 uppercase">Key Strategy</p>
-                  <p className="text-xs text-white/60">{tower.strategy}</p>
+
+                {/* Buff preview (always visible) */}
+                <div className="mt-3 p-2.5 rounded-lg" style={{ background: `${tower.color}08`, border: `1px solid ${tower.color}20` }}>
+                  <p className="text-[11px] text-white/60 leading-relaxed">{tower.buff}</p>
                 </div>
-                <ul className="space-y-2">
-                  {tower.tips.map((tip, i) => (
-                    <li key={i} className="flex gap-2 text-xs text-white/50">
-                      <span className="text-accent font-bold mt-px">•</span>
-                      <span>{tip}</span>
-                    </li>
-                  ))}
-                </ul>
+
+                {/* Expanded content */}
+                <AnimatePresence>
+                  {isExpanded && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="overflow-hidden"
+                    >
+                      {/* Strategy */}
+                      <div className="mt-3 p-3 bg-accent/5 border border-accent/20 rounded-xl">
+                        <p className="text-[10px] font-bold uppercase text-accent/70 mb-1">Strategy</p>
+                        <p className="text-xs text-white/60">{tower.strategy}</p>
+                      </div>
+
+                      {/* Best characters */}
+                      <div className="mt-3">
+                        <p className="text-[10px] font-bold uppercase text-white/40 mb-2">Top Picks This Rotation</p>
+                        <div className="flex gap-2 overflow-x-auto pb-1">
+                          {tower.bestChars.map(name => {
+                            const ch = CHARACTERS.find(c => c.name === name)
+                            return (
+                              <div key={name} className="flex-shrink-0 flex flex-col items-center gap-1">
+                                <div className="w-12 h-12 rounded-xl overflow-hidden border"
+                                  style={{ borderColor: `${ELEMENT_COLORS[ch?.element]}44`, background: `linear-gradient(135deg, ${ELEMENT_COLORS[ch?.element]}22, ${ELEMENT_COLORS[ch?.element]}55)` }}>
+                                  {ch?.img ? <img src={ch.img} alt={name} className="w-full h-full object-cover" loading="lazy" />
+                                    : <div className="w-full h-full flex items-center justify-center text-xs font-bold">{name.slice(0,2)}</div>}
+                                </div>
+                                <span className="text-[9px] text-white/40 font-semibold">{name.split(' ')[0]}</span>
+                              </div>
+                            )
+                          })}
+                        </div>
+                      </div>
+
+                      {/* Floor difficulty */}
+                      <div className="mt-3 grid grid-cols-2 gap-2">
+                        {tower.floors.map(floor => (
+                          <div key={floor.num} className="bg-surface/50 rounded-lg p-2.5 border border-border">
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="text-[10px] font-bold">Floor {floor.num}</span>
+                              <div className="flex gap-0.5">
+                                {[...Array(5)].map((_, i) => (
+                                  <div key={i} className={`w-1.5 h-1.5 rounded-full ${i < floor.difficulty ? 'bg-accent' : 'bg-white/10'}`} />
+                                ))}
+                              </div>
+                            </div>
+                            <p className="text-[9px] text-white/30">{floor.enemies}</p>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Tips */}
+                      <div className="mt-3 space-y-1.5">
+                        {tower.tips.map((tip, i) => (
+                          <motion.div key={i} initial={{ opacity: 0, x: -5 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 + i * 0.05 }}
+                            className="flex gap-2 items-start text-[11px] text-white/50">
+                            <span style={{ color: tower.color }}>→</span>
+                            <span>{tip}</span>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-            </div>
-          </div>
-        )
-      })}
+            </motion.div>
+          )
+        })}
+      </div>
 
       {/* Recommended Teams */}
-      <h2 className="font-bold text-sm text-white/70 uppercase tracking-wide mt-8 mb-3 flex items-center gap-2">
-        <Crown size={14} className="text-yellow-400" /> Recommended Teams This Rotation
-      </h2>
-      <p className="text-xs text-white/40 mb-4">The best teams to aim for. If you don't own them yet, these are worth pulling for.</p>
-
-      {RECOMMENDED_TEAMS.map((section, si) => (
-        <motion.div key={section.tower} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: si * 0.1 }}
-          className="mb-5">
-          <div className="flex items-center gap-2 mb-2">
-            <h3 className="font-bold text-sm">{section.tower}</h3>
-            <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded ${
-              section.tier === 'SS' ? 'bg-accent/15 text-accent' :
-              section.tier === 'S' ? 'bg-yellow/15 text-yellow-400' :
-              'bg-green/15 text-green'
-            }`}>{section.tier} Tier</span>
-          </div>
-          <div className="space-y-2">
-            {section.teams.map((team, ti) => (
-              <div key={ti} className="bg-card border border-border rounded-xl p-4 hover:border-white/10 transition-all">
-                <div className="flex items-center gap-2 mb-2.5">
-                  <span className="text-xs font-bold text-white/90">{team.name}</span>
-                </div>
-                <div className="flex gap-2 mb-2.5 flex-wrap">
-                  {team.chars.map(name => {
-                    const ch = CHARACTERS.find(x => x.name === name)
-                    return (
-                      <div key={name} className="flex items-center gap-1.5 bg-surface border border-border rounded-lg px-2.5 py-1.5">
-                        {ch?.img ? (
-                          <img src={ch.img} alt={name} className="w-6 h-6 rounded-md object-cover"
-                            style={{ border: `1px solid ${ELEMENT_COLORS[ch.element]}44` }} />
-                        ) : (
-                          <div className="w-6 h-6 rounded-md flex items-center justify-center text-[9px] font-bold"
-                            style={{ background: `${ELEMENT_COLORS[ch?.element]}33` }}>
-                            {name.slice(0,2)}
-                          </div>
-                        )}
-                        <span className="text-[11px] font-semibold">{name}</span>
-                      </div>
-                    )
-                  })}
-                </div>
-                <p className="text-[11px] text-white/40 leading-relaxed">{team.why}</p>
+      <div className="mb-6">
+        <h2 className="text-xs font-bold uppercase text-white/40 mb-3 flex items-center gap-2">
+          <Crown size={14} className="text-yellow-400" /> Meta Teams
+        </h2>
+        <div className="space-y-2">
+          {META_TEAMS.map((team, i) => (
+            <motion.div key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 + i * 0.08 }}
+              className="bg-card border border-border rounded-xl p-3.5 hover:border-white/10 transition-all">
+              <div className="flex items-center gap-2 mb-2">
+                <span className={`text-[9px] font-extrabold px-1.5 py-0.5 rounded ${
+                  team.tier === 'SS' ? 'bg-accent/15 text-accent' : team.tier === 'S' ? 'bg-yellow/15 text-yellow-400' : 'bg-green/15 text-green'
+                }`}>{team.tier}</span>
+                <span className="text-xs font-bold">{team.name}</span>
+                <span className="text-[9px] text-white/30 ml-auto">{team.tower}</span>
               </div>
-            ))}
-          </div>
-        </motion.div>
-      ))}
+              <div className="flex gap-1.5 mb-2">
+                {team.chars.map(name => {
+                  const ch = CHARACTERS.find(c => c.name === name)
+                  return (
+                    <div key={name} className="flex items-center gap-1.5 bg-surface border border-border rounded-lg px-2 py-1">
+                      {ch?.img ? <img src={ch.img} alt={name} className="w-5 h-5 rounded object-cover" />
+                        : <div className="w-5 h-5 rounded flex items-center justify-center text-[8px] font-bold" style={{ background: `${ELEMENT_COLORS[ch?.element]}33` }}>{name.slice(0,2)}</div>}
+                      <span className="text-[10px] font-semibold">{name.split(' ')[0]}</span>
+                    </div>
+                  )
+                })}
+              </div>
+              <p className="text-[10px] text-white/40">{team.why}</p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
 
-      {/* Combat tips */}
-      <h2 className="font-bold text-sm text-white/70 uppercase tracking-wide mt-8 mb-3">Combat Fundamentals</h2>
+      {/* Combat Tips */}
+      <h2 className="text-xs font-bold uppercase text-white/40 mb-3">Combat Tips</h2>
       <div className="grid gap-2 mb-8">
         {COMBAT_TIPS.map((t, i) => (
-          <div key={i} className="bg-card border border-border rounded-xl p-4 flex gap-3">
-            <span className="text-lg">{t.icon}</span>
+          <motion.div key={i} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 + i * 0.05 }}
+            className="bg-card border border-border rounded-xl p-3.5 flex gap-3">
+            <span className="text-base">{t.icon}</span>
             <div>
-              <h3 className="text-sm font-bold">{t.title}</h3>
-              <p className="text-xs text-white/40 mt-0.5">{t.desc}</p>
+              <h3 className="text-xs font-bold">{t.title}</h3>
+              <p className="text-[10px] text-white/40 mt-0.5">{t.desc}</p>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
     </motion.div>

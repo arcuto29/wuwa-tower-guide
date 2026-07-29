@@ -1,13 +1,39 @@
 {
   "name": "wuwa-tower-guide",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "WuWa Tower Companion - Wuthering Waves endgame planner",
+  "author": "arcuto29",
+  "main": "electron/main.js",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "electron:dev": "concurrently \"vite\" \"wait-on http://localhost:5173/wuwa-tower-guide/ && electron .\"",
+    "electron:build": "vite build && electron-builder",
+    "electron:preview": "vite build && electron ."
+  },
+  "build": {
+    "appId": "com.arcuto29.wuwa-companion",
+    "productName": "WuWa Companion",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "public/**/*"
+    ],
+    "win": {
+      "target": ["portable", "nsis"],
+      "icon": "public/icon.png"
+    },
+    "nsis": {
+      "oneClick": true,
+      "allowToChangeInstallationDirectory": false
+    }
   },
   "dependencies": {
     "framer-motion": "^12.43.0",
@@ -20,8 +46,12 @@
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.3",
+    "concurrently": "^10.0.4",
+    "electron": "^43.2.0",
+    "electron-builder": "^26.15.3",
     "oxlint": "^1.71.0",
     "tailwindcss": "^4.3.3",
-    "vite": "^8.1.1"
+    "vite": "^8.1.1",
+    "wait-on": "^9.1.0"
   }
 }
